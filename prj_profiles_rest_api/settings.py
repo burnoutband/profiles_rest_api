@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # my App
+    'rest_framework',
+    'rest_framework.authtoken',
+    'profiles_api',
+
 ]
 
 MIDDLEWARE = [
@@ -74,10 +80,28 @@ WSGI_APPLICATION = 'prj_profiles_rest_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+
+
+# ------------------------------------------------
+# Author   : Josh Daeseon Kim
+# Created  : 2017-06-16T14:24:35+09:00
+# Describe : PostgreSQL Setting
+# ------------------------------------------------
+
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
+
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'pharos_db_dev',
+        'USER': 'postgres',
+        'PASSWORD': 'joshkim0@@8',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -104,14 +128,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+# ------------------------------------------------
+# @Author   : Josh Daeseon Kim
+# @Created  : 2017-06-16T14:26:43+09:00
+# @Describe : Language, TimeZone setting
+# ------------------------------------------------
+# LANGUAGE_CODE = 'en-us'
+# TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'ko-kr'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -119,3 +147,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Set Out Custom User Model - add by josh
+AUTH_USER_MODEL = 'profiles_api.UserProfile'
