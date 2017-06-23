@@ -93,22 +93,22 @@ class HelloViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
         """Handles getting an object by its ID (database)."""
 
-        return Response({'http_method': "GET"})
+        return Response({'http_method': "GETt"})
 
 
     def update(self, request, pk=None):
         """Handles updating an object."""
 
-        return Response({'http_method': 'PUT'})
+        return Response({'http_method': 'PUTt'})
 
 
     def partial_update(self, request, pk=None):
         """Handles updating part of an object."""
 
-        return Response({'http_method': 'PATCH'})
+        return Response({'http_method': 'PATCHh'})
 
 
     def destroy(self, request, pk=None):
         """Handles removing an object."""
 
-        return Response({'http_method': 'DELETE'})
+        return Response({'http_method': 'DELETEe'})
