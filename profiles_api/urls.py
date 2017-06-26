@@ -13,6 +13,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('hello-viewsettttt', views.HelloViewSet, base_name = 'hello-viewset')
 router.register('profile', views.UserProfileViewSet)
+router.register('login', views.LoginViewSet, base_name='login')
 
 
 urlpatterns = [

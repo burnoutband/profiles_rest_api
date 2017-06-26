@@ -1,14 +1,16 @@
 from django.shortcuts import render
 
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets, filters
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 
 from profiles_api import serializers
 from profiles_api import models
 from profiles_api import permissions
-from rest_framework.authentication import TokenAuthentication
+
 
 # Create your views here.
 
@@ -60,7 +62,6 @@ class HelloApiView(APIView):
         return Response({'method': 'delete'})
 
 
-
 class HelloViewSet(viewsets.ViewSet):
     """Test API ViewSet"""
 
@@ -93,24 +94,20 @@ class HelloViewSet(viewsets.ViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     def retrieve(self, request, pk=None):
         """Handles getting an object by its ID (database)."""
 
         return Response({'http_method': "GETt"})
-
 
     def update(self, request, pk=None):
         """Handles updating an object."""
 
         return Response({'http_method': 'PUTt'})
 
-
     def partial_update(self, request, pk=None):
         """Handles updating part of an object."""
 
         return Response({'http_method': 'PATCHh'})
-
 
     def destroy(self, request, pk=None):
         """Handles removing an object."""
@@ -128,3 +125,15 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.UpdateOwnProfile,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'email',)
+
+
+
+class LoginViewSet(viewsets.ViewSet):
+    """Checks email and password and returns an auth token."""
+
+    serializer_class = AuthTokenSerializer
+
+    def create(self, request):
+        """Use the ObtainAuthToken APIView to validate and create a token."""
+
+        return ObtainAuthToken().post(request)
