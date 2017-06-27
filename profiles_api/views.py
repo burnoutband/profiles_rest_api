@@ -6,6 +6,9 @@ from rest_framework import status, viewsets, filters
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import (IsAuthenticatedOrReadOnly, IsAuthenticated, )
+
+
 
 from profiles_api import serializers
 from profiles_api import models
@@ -124,7 +127,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('name', 'email',)
+    search_fields = ('name', 'email',)  # 끝에 , 는 python이 tuple인지 인식하는 장치이다.
 
 
 
@@ -137,3 +140,23 @@ class LoginViewSet(viewsets.ViewSet):
         """Use the ObtainAuthToken APIView to validate and create a token."""
 
         return ObtainAuthToken().post(request)
+
+
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """Handels creating, reading and updating profile feed items."""
+
+    # Class variables
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ProfileFeedItemSerializer
+    queryset = models.ProfileFeedItem.objects.all()
+    # permission_classes = (permissions.PostOwnStatus, IsAuthenticatedOrReadOnly)
+    permission_classes = (permissions.PostOwnStatus, IsAuthenticated)
+
+
+    # Object를 create 할 때, 수행하는 로직을 커스터마이즈 할 경우 perform_create 함수 사용
+    # 여기서는 로그인 유저에 한해서 생성되는 user feed item 이 user profile 에 제대로 셋팅되는지 확실히 하기 위해 사용함.
+    def perform_create(self, serializer):
+        """Sets the user profile to the logged in user."""
+
+        serializer.save(user_profile=self.request.user)

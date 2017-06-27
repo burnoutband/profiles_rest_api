@@ -21,7 +21,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'name', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
-    # Override create
+    # Override create function
     def create(self, validated_data):
         """Create and return a new user."""
 
@@ -35,3 +35,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
         return user
 
+
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """A serializer for profile feed item."""
+
+    class Meta:
+        model = models.ProfileFeedItem
+        fields = ('id', 'user_profile', 'status_text', 'created_on')
+        extra_kwargs = {'user_profile': {'read_only': True}} # login 한 유저만 자기 프로파일 편집가능하다.
