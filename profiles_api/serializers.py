@@ -21,7 +21,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'name', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
+
     # Override create function
+    # why overriding? to encrypt password with hash.
     def create(self, validated_data):
         """Create and return a new user."""
 
@@ -31,6 +33,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
 
         user.set_password(validated_data['password'])
+        # save() 은 user 오브젝트를 DB에 저장.
         user.save()
 
         return user

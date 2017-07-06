@@ -20,6 +20,7 @@ router.register('feed', views.UserProfileFeedViewSet)
 urlpatterns = [
     # /api/hello-view/
     url(r'^hello-view/', views.HelloApiView.as_view()),
+    # swagger
 
     # /api/
     url(r'', include(router.urls))

@@ -6,7 +6,7 @@ from rest_framework import status, viewsets, filters
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import (IsAuthenticatedOrReadOnly, IsAuthenticated, )
+from rest_framework.permissions import (IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser,)
 
 
 
@@ -151,7 +151,9 @@ class UserProfileFeedViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ProfileFeedItemSerializer
     queryset = models.ProfileFeedItem.objects.all()
     # permission_classes = (permissions.PostOwnStatus, IsAuthenticatedOrReadOnly)
-    permission_classes = (permissions.PostOwnStatus, IsAuthenticated)
+    permission_classes = (permissions.PostOwnStatus, IsAuthenticated,)
+
+
 
 
     # Object를 create 할 때, 수행하는 로직을 커스터마이즈 할 경우 perform_create 함수 사용

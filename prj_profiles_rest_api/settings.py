@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # my App
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
     'profiles_api',
 
 ]
@@ -97,7 +98,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pharos_db_dev',
+        'NAME': 'profile_api_test',
         'USER': 'postgres',
         'PASSWORD': 'dskim12!@',
         'HOST': 'localhost',

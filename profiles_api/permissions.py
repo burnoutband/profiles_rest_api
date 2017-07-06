@@ -26,3 +26,12 @@ class PostOwnStatus(permissions.BasePermission):
             return True
 
         return obj.user_profile.id == request.user.id
+
+
+
+
+# TODO  2017-07-06T21:12:12+09:00
+    # user list -- for admin only
+    # get/update user profile - only each user or admin
+    # https://stackoverflow.com/questions/37642175/how-to-add-django-rest-framework-permissions-on-specific-method-only
+    # https://stackoverflow.com/questions/19313314/django-rest-framework-per-action-permission
