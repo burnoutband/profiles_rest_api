@@ -1,3 +1,10 @@
+# References
+# print("request.method = {}".format(request.method))
+# print("request.user.id = {}".format(request.user.id))
+# print("request.user.is_superuser = {}".format(request.user.is_superuser))
+# print("request.user.is_staff = {}".format(request.user.is_staff))
+# print("request.user.is_authenticated()= {}".format(request.user.is_authenticated()))
+
 from django.shortcuts import render
 
 from rest_framework.views import APIView
@@ -6,9 +13,7 @@ from rest_framework import status, viewsets, filters
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import (IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser,)
-
-
+from rest_framework.permissions import (IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser, )
 
 from profiles_api import serializers
 from profiles_api import models
@@ -118,7 +123,6 @@ class HelloViewSet(viewsets.ViewSet):
         return Response({'http_method': 'DELETEe'})
 
 
-
 class UserProfileViewSet(viewsets.ModelViewSet):
     """Handles creating, creating and updating profiles. ModelViewset Creates, Reads, update object on model."""
 
@@ -128,7 +132,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.UpdateOwnProfile,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'email',)  # 끝에 , 는 python이 tuple인지 인식하는 장치이다.
-
 
 
 class LoginViewSet(viewsets.ViewSet):
@@ -142,17 +145,26 @@ class LoginViewSet(viewsets.ViewSet):
         return ObtainAuthToken().post(request)
 
 
-
 class UserProfileFeedViewSet(viewsets.ModelViewSet):
     """Handels creating, reading and updating profile feed items."""
 
-    # Class variables
+
     authentication_classes = (TokenAuthentication,)
     serializer_class = serializers.ProfileFeedItemSerializer
-    queryset = models.ProfileFeedItem.objects.all()
     # permission_classes = (permissions.PostOwnStatus, IsAuthenticatedOrReadOnly)
     permission_classes = (permissions.PostOwnStatus, IsAuthenticated,)
 
+    def get_queryset(self):
+        """Return Resource after checking permission which I have."""
+
+        if self.request.user.is_superuser:
+            queryset = models.ProfileFeedItem.objects.all()
+            print("Case : admin")
+        else:
+            print("Case : Non admin")
+            queryset = models.ProfileFeedItem.objects.filter(id=self.request.user.id)
+
+        return queryset
 
 
 

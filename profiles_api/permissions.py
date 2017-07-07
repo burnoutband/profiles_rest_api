@@ -2,6 +2,7 @@
 
 from rest_framework import permissions
 
+# SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
 
 class UpdateOwnProfile(permissions.BasePermission):
     """Allow users to edit their own profile."""
@@ -30,8 +31,42 @@ class PostOwnStatus(permissions.BasePermission):
 
 
 
-# TODO  2017-07-06T21:12:12+09:00
+# class UserPermission(permissions.BasePermission):
+#
+#     def has_permission(self, request, view):
+#         print(view.action)
+#         print(request.user.is_superuser)
+#         print(request.user.is_authenticated())
+#
+#         if view.action == 'list':
+#             return request.user.is_authenticated() and request.user.is_superuser
+#         elif view.action == 'create':
+#             return True
+#         elif view.action in ['retrieve', 'update', 'partial_update', 'destroy']:
+#             return True
+#         else:
+#             return False
+#
+#     def has_object_permission(self, request, view, obj):
+#         print(view.action)
+#         print(request.user.is_superuser)
+#         print(request.user.is_authenticated())
+#
+#         if view.action == 'retrieve':
+#             return request.user.is_authenticated() and (obj == request.user or request.user.is_superuser)
+#         elif view.action in ['update', 'partial_update']:
+#             return request.user.is_authenticated() and (obj == request.user or request.user.is_superuser)
+#         elif view.action == 'destroy':
+#             return request.user.is_authenticated() and request.user.is_superuser
+#         else:
+#             return False
+
+
+
+# TODOdone  2017-07-06T21:12:12+09:00
     # user list -- for admin only
     # get/update user profile - only each user or admin
     # https://stackoverflow.com/questions/37642175/how-to-add-django-rest-framework-permissions-on-specific-method-only
     # https://stackoverflow.com/questions/19313314/django-rest-framework-per-action-permission
+
+    # 자기자신꺼만 보인다.
