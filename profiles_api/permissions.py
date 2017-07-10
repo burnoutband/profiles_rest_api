@@ -3,6 +3,8 @@
 from rest_framework import permissions
 
 # SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
+from profiles_api import models
+
 
 class UpdateOwnProfile(permissions.BasePermission):
     """Allow users to edit their own profile."""
@@ -29,6 +31,18 @@ class PostOwnStatus(permissions.BasePermission):
         return obj.user_profile.id == request.user.id
 
 
+
+def CheckUser_ReadPermission(request):
+
+    if request.user.is_superuser:
+        queryset = models.ProfileFeedItem.objects.all()
+        print("Case : admin")
+    else:
+        print("Case : Non admin")
+
+        queryset = models.ProfileFeedItem.objects.filter(id=request.user.id)
+
+    return queryset
 
 
 # class UserPermission(permissions.BasePermission):

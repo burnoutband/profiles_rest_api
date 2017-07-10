@@ -157,12 +157,7 @@ class UserProfileFeedViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Return Resource after checking permission which I have."""
 
-        if self.request.user.is_superuser:
-            queryset = models.ProfileFeedItem.objects.all()
-            print("Case : admin")
-        else:
-            print("Case : Non admin")
-            queryset = models.ProfileFeedItem.objects.filter(id=self.request.user.id)
+        queryset = permissions.CheckUser_ReadPermission(self.request)
 
         return queryset
 
